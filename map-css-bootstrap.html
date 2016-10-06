@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">        
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="map-css-bootstrap.css">
+        <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+          
+          // The javascript here will dynamically update the webpage, 
+          // insert history data as well as changing the status indicator
+          $(document).ready(function(){              
+              websocket = new WebSocket("ws://52.8.142.239:8443");
+              websocket.onopen = function(evt) { console.log(evt) };
+              websocket.onclose = function(evt) { console.log(evt) };
+              var messageNum = 0;
+              websocket.onmessage = function(evt) { 
+                  console.log(evt);
+                  $.get("http://52.8.142.239/map", function(data, status) {
+                      console.log(data);
+                      
+                      $("#googlemap").attr("src","https://www.google.com/maps/embed/v1/place?key=AIzaSyBqqdGsaT_t3kn1GaPGFxOmcKh5u7xWQgw&zoom=8&q="+data[1]+','+data[0]);
+                      
+                      $("#status_display")
+                          .addClass("location_change")
+                          .removeClass("location_not_change");
+                      
+                      $("#history_display")
+                          .prepend("<div class='history_row_"+(messageNum++%2)+"'>"+data+"</div>");
+                      
+                      setTimeout(function() {
+                          $("#status_display")
+                              .addClass("location_not_change")
+                              .removeClass("location_change");
+                      }, 1000);
+                  });
+              };
+              websocket.onerror = function(evt) { console.log(evt) };
+          }); 
+          
+        </script>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+    </head>
+    
+    <body> 
+        <nav class="navbar navbar-default nav-tabs">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <a class="navbar-brand">Tracking Dashboard</a>
+                </div>
+                <ul class="nav navbar-nav">
+                    <li class="active"><a data-toggle="tab" href="#intro_display">Introduction</a></li>
+                    <li><a data-toggle="tab" href="#map_display"  id="status_display" class="location_not_change">Live map</a></li>
+                    <li><a data-toggle="tab" href="#history_display">History</a></li>
+                </ul>
+            </div>
+        </nav>
+        
+        <div class="container well" id="main">
+            <div class="tab-content">
+                <div id="intro_display" class="tab-pane fade in active">
+                    <p>
+                        This is a bare bones HTML page that connects with a backend server
+                        to simulate real-time location tracking.  When the webpage receives
+                        a notification from the server that a location has changed, the status
+                        is changed for 1 second, and the map location is also changed.
+                    </p>                    
+                    <p>
+                        Your job is to make this site looks great by using CSS and
+                        include appropriate graphics/icons. You are free
+                        to use any tools or frameworks that is familiar to you.
+                    </p>
+                </div>
+
+                <div id="map_display"  class="tab-pane fade">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <iframe                     
+                                     id="googlemap"
+                                     width="300"
+                                     height="240"
+                                     frameborder="0" style="border:0" class="thumbnail"
+                                     src="https://www.google.com/maps/embed/v1/place?key=AIzaSyBqqdGsaT_t3kn1GaPGFxOmcKh5u7xWQgw&q=49,-122&zoom=8" allowfullscreen>
+                                </iframe>
+                            </div>
+                            <div class="col-md-7">
+                                <p id="map_text" class="text-justify">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dignissim enim sit amet sem finibus
+                                    efficitur. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+                                    Aliquam eu odio id magna cursus ullamcorper. Cras ornare consequat lobortis. Phasellus consequat
+                                    ipsum a risus blandit malesuada. Cum sociis natoque penatibus et magnis dis parturient montes,
+                                    nascetur ridiculus mus. Quisque eu maximus felis.
+                                    Pellentesque vel mauris luctus, suscipit purus facilisis, posuere nulla. Mauris nisi orci, congue
+                                    sed lacus id, laoreet pulvinar turpis. Curabitur ex enim, consequat pulvinar convallis in, cursus
+                                    sed nisl. In hac habitasse platea dictumst. Sed massa magna, fringilla pulvinar cursus vel,
+                                    tristique id ex. Praesent eget enim nec felis tristique elementum. Fusce feugiat malesuada quam
+                                    eget malesuada. Etiam nibh purus, mollis vitae bibendum eu, fringilla non metus. Quisque hendrerit
+                                    nibh in nulla efficitur sollicitudin. Sed cursus eros ut arcu luctus condimentum. Curabitur
+                                    bibendum auctor hendrerit. Maecenas ante mi, consectetur eget sollicitudin non, scelerisque nec
+                                    nisl. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec est nibh.       
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="history_display" class="tab-pane fade">
+                    <!-- location history will be added dynamically -->
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-sm-4 col-xs-6"><a class="thumbnail"><img src="old-1130743_960_720.jpg"></a></div>
+                <div class="col-md-4 col-sm-4 col-xs-6"><a class="thumbnail"><img src="old-1130731_960_720.jpg"></a></div>
+                <div class="col-md-4 col-sm-4 col-xs-6"><a class="thumbnail"><img src="knowledge-1052011_960_720.jpg"></a></div>
+            </div>
+        </div>
+        <nav id="footer" class="navbar navbar-default opacity">
+          <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand"><small>Human Tracking Service <i class="fa fa-copyright"></i> 2016</small></a>
+            </div>
+          </div>
+        </nav>
+    </body>
+</html>

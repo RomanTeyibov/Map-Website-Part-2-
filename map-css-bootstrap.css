@@ -1,0 +1,72 @@
+
+/* Some css classes that are inserted by the javascript */
+
+/* The history_row_* classes are inserted into the history_display
+ div.  The classes alternate so we can have different style for
+ each row, creating a nice visual effect.
+*/
+.history_row_0 {
+  background-color: #cccccc;
+}
+
+.history_row_1 {
+  background-color: #dddddd;
+}
+
+/* Every time a location changes.  It will change the status_display
+ div so that when an update happens, the class will change to 
+ location_change, and change to location_not_change after 1 second.
+ */
+.location_change {
+    background-image: url(abstract-22122_960_720.jpg);
+}
+
+.location_not_change {
+    
+}          
+
+nav {
+    font-size: 1.2em;
+}
+
+body {
+    background-image: url(cereals-480691_1920.jpg);
+    background-position: top;
+}
+
+nav ul li:hover {
+    background-image: url(cereals-480691_1920.jpg);
+}
+
+#history_display {
+    height:200px;
+    overflow-y: scroll;
+}
+
+.well {
+    opacity: 0.9;
+    -moz-opacity: 0.9; 
+    -webkit-opacity: 0.9;
+}
+
+#footer {
+
+}
+
+.opacity {
+    opacity: 0.9;
+    -moz-opacity: 0.9; 
+    -webkit-opacity: 0.9;
+}
+
+#main {
+    margin-bottom: 20px;
+}
+
+#map_text {
+    padding-right: 5%;
+}
+
+@media only screen and (max-width: 768px) {
+    
+}
